@@ -21,8 +21,6 @@ This guide will walk you through the template language used to generate dynamic 
          * [Example](#example)
       * [File formats](#file-formats)
          * [Text files](#text-files)
-         * [YAML files](#yaml-files)
-         * [JSON files](#json-files)
    * [Variables](#variables)
       * [Immediate Evaluation](#immediate-evaluation)
       * [Non-immediate Evaluation](#non-immediate-evaluation)
@@ -62,7 +60,6 @@ You can add weights to options to control their relative frequency. To do this, 
 
 The weights are relative and do not have to add up to 1.
 If you omit a weight, it is assumed to be 1.
-Weights are also possible in YAML wildcard files, [see below](#weighted-options-in-yaml).
 
 ### Choosing Multiple Values
 
@@ -299,71 +296,6 @@ winter
 spring
 ```
 
-#### YAML files
-
-YAML files are supported for storing a hierarchy of prompts. Here is an example:
-
-```
-# example.yaml
-clothing:
-  - T-shirt
-  - Pants
-  - Shoes
-artists:
-  finnish:
-    - Akseli Gallen-Kallela
-    - Eero Järnefelt
-    - Helene Schjerfbeck
-  dutch:
-    - Piet Mondrian
-    - Rembrandt van Rijn
-    - Vincent van Gogh
-  1234: 5678  # this is ignored
-  flurp: 12345  # this too
-```
-
-The last two entries are ignore since they don't store arrays.
-
-##### Weighted options in YAML
-
-A handy feature of YAML files is that they provide an easy way to add weights to wildcards, something which isn't possible using standard text files. Here is an example:
-
-```yaml
-# colors.yaml
-colors:
-- "{
-    2::red
-    |3::blue
-    |1::green
-  }"
-```
-
-#### JSON files
-
-Similar to YAML, you can use JSON files as well:
-
-```
-{
-	"clothing": [
-		"T-shirt",
-		"Pants",
-		"Shoes"
-	],
-	"artists": {
-		"finnish": [
-			"Akseli Gallen-Kallela",
-			"Eero Järnefelt",
-			"Helene Schjerfbeck"
-		],
-		"dutch": [
-			"Piet Mondrian",
-    			"Rembrandt van Rijn",
-    			"Vincent van Gogh'
-		]
-	}
-}
-```
-
 ## Variables
 
 Variables allow you to store and reuse values in your prompts. To set a variable, use the following syntax:
@@ -476,29 +408,7 @@ As your prompts become more complex, the become harder to read. To prevent creat
    In ${season:summer}, I wear ${season:summer} shirts and ${season:summer} trousers
 ```
 
-Note that regular wildcard .txt files use a newline to represent new wildcard and so whitespace is not permitted. In this case you should consider using the YAML wildcard format. Here is a real-world example from the [publicprompts](https://github.com/adieyal/sd-dynamic-prompts/blob/main/collections/publicprompts.yaml) wildcard file:
-
-```
-# publicprompts.yaml
-# Prompts taken https://publicprompts.art/
-public-prompts:
-  cute-stuffed-animals:
-    - |
-      # Usage: ==public-prompts/cuddly-toys(figure=elephant)==
-      # Homepage: https://publicprompts.art/cute-stuffed-animals/
-      # Suggested settings:
-      # CFG scale: 13
-      # Sampler DDIM
-      # Steps: 35
-
-      cute kawaii Squishy ${figure} plush toy,
-      realistic texture, visible stitch line,
-      soft smooth lighting,
-      vibrant studio lighting,
-      modular constructivism,
-      physically based rendering,
-      square image
-```
+Note that regular wildcard .txt files use a newline to represent new wildcard and so whitespace is not permitted. 
 
 ## Samplers
 
