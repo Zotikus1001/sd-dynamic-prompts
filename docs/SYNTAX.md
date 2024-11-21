@@ -137,10 +137,10 @@ p{4$$chocolate|vanilla|strawberry} == chocolate, vanilla, strawberry
 ### Basic Syntax
 
 Wildcards are placeholders that inject values from a file into your prompt.
-Create a file with the desired values and use double underscores `__` to indicate the wildcard:
+Create a file with the desired values and use double `==` to indicate the wildcard:
 
 ```
-__season__ is coming
+==season== is coming
 ```
 
 Assuming you have a seasons.txt file with the following content:
@@ -165,13 +165,13 @@ This prompt will randomly generate one of the following:
 You can choose multiple values from a wildcard as follows:
 
 ```
-My favourite ice-cream flavours are {2$$__flavours__}
+My favourite ice-cream flavours are {2$$==flavours==}
 ```
 
 This syntax is also possible:
 
 ```
-My favourite ice-cream flavours are {2$$__flavours__|__flavours__}
+My favourite ice-cream flavours are {2$$==flavours==|==flavours==}
 ```
 
 but the first version will guarantee no duplicates.
@@ -202,12 +202,12 @@ You can use wildcards inside other wildcards. If you have a file called people_o
 
 ```
 # people_of_the_world.txt
-__asia__
-__africa__
-__europe__
-__north_america__
-__south_america__
-__australisia__
+==asia==
+==africa==
+==europe==
+==north_america==
+==south_america==
+==australisia==
 ...
 ```
 
@@ -224,10 +224,10 @@ Basotho
 Then
 
 ```
-__people_of_the_world__
+==people_of_the_world==
 ```
 
-will first select a value in people_of_the_world.txt. If that value is a wildcard, say `__africa__`,
+will first select a value in people_of_the_world.txt. If that value is a wildcard, say `==africa==`,
 it will then choose a value from within `africa.txt. Using nesting, you can create an sophisticated wildcard hierarchies.
 
 ### Resolving Wildcards with Globbing
@@ -243,7 +243,7 @@ you can use globbing to resolve values from both of these files by using an aste
 To use globbing, simply include an asterisk `*` in your wildcard pattern:
 
 ```
-__colours*__
+==colours*==
 ```
 
 In this example, any file that starts with colours will be matched. So both colours-cold.txt and colours-warm.txt will be used to resolve values.
@@ -268,10 +268,10 @@ red
 yellow
 ```
 
-Using the `__colours*__` wildcard will randomly select a value from both files:
+Using the `==colours*==` wildcard will randomly select a value from both files:
 
 ```
-The colour of my shirt is __colours*__
+The colour of my shirt is ==colours*==
 ```
 
 Possible outputs are:
@@ -377,7 +377,7 @@ ${variable_name=value}
 To force the immediate evaluation of a variable's value, add an exclamation mark ! before the value:
 
 ```
-${season=!__season__}
+${season=!==season==}
 ```
 
 or
@@ -405,7 +405,7 @@ This will generate:
 Without the exclamation mark, the wildcard or variant will be evaluated every time it is used:
 
 ```
-${season=__season__} and In ${season}, I wear ${season} shirts and ${season} trousers
+${season===season==} and In ${season}, I wear ${season} shirts and ${season} trousers
 ```
 
 This may produce:
@@ -440,13 +440,13 @@ In ${season}, I wear ${season} shirts and ${season} trousers
 Then, in your prompt, you can pass a value to the template:
 
 ```
-__season_clothes(season=winter)__
+==season_clothes(season=winter)==
 ```
 
 Note - for now you can only pass a literal string into the template rather than an expression. This syntax will also work
 
 ```
-${season={summer|autumn|winter|spring} __season_clothes__
+${season={summer|autumn|winter|spring} ==season_clothes==
 ```
 
 ### Default values
@@ -484,7 +484,7 @@ Note that regular wildcard .txt files use a newline to represent new wildcard an
 public-prompts:
   cute-stuffed-animals:
     - |
-      # Usage: __public-prompts/cuddly-toys(figure=elephant)__
+      # Usage: ==public-prompts/cuddly-toys(figure=elephant)==
       # Homepage: https://publicprompts.art/cute-stuffed-animals/
       # Suggested settings:
       # CFG scale: 13
@@ -551,7 +551,7 @@ A red circle
 
 To use the combinatorial sampler, you need to use a [CombinatorialPromptGenerator](https://github.com/adieyal/dynamicprompts#combinatorial-generation) if you're using the [dynamicprompts](https://github.com/adieyal/dynamicprompts) library directly or the [combinatorial mode](https://github.com/adieyal/sd-dynamic-prompts#combinatorial-generation) if you are using the extension. You can also explicitly specify which sampler to use for certain parts of your prompt.
 
-The `~` is used for a random sampler and `@` for cyclical. The syntax for variants is `{~red|green|blue}` and `__~colours__` for wildcards. Similarly, `{@red|green|blue}` and `__@colours__` for cycle.
+The `~` is used for a random sampler and `@` for cyclical. The syntax for variants is `{~red|green|blue}` and `==~colours==` for wildcards. Similarly, `{@red|green|blue}` and `==@colours==` for cycle.
 
 If a sampler is not explicitly specified, the default sampler is used, the value of which depends on your generator.
 
